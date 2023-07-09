@@ -1,38 +1,52 @@
 // C++ code to find number of unique BSTs
-// Dynamic Programming solution
-#include <bits/stdc++.h>
-using namespace std;
 
-// Function to find number of unique BST
-int numberOfBST(int n)
-{
+// O(n^2) Time and O(1) space recursion + memoisation solution
+class Solution {
+public:
+    int dp[20] = {};
+    int helper(int n){
+        if(n <=  1) return 1;
+        if(dp[n]) return dp[n];
+        for(int i = 1; i <= n;i++){
+            dp[n] += helper(n-i) * helper(i-1);
+        }
+        return dp[n];
+    }
+    int numTrees(int n) {
+        return helper(n);
+    }
+};
 
-	// DP to store the number of unique BST with key i
-	int dp[n + 1];
-	fill_n(dp, n + 1, 0);
 
-	// Base case
-	dp[0] = 1;
-	dp[1] = 1;
+// O(n^2) Time and O(n) space Dynamic Programming solution
+class Solution {
+public:
+    int numTrees(int n) {
+		// dp[i] stores the number of unique BSTs for i nodes
+        vector<int> dp(n+1,0);
+		// Base cases
+        dp[0] = dp[1] = 1;
+        for (int i = 2; i <= n; i++) {
+			// dp[i] = sum of (dp[j-1] * dp[i-j]) for all j
+            for (int j = 1; j <= i; j++) {
+				// dp[j-1] * dp[i-j] is the number of unique BSTs for j-1 nodes on the left and i-j nodes on the right and j as the root
+                dp[i] += (dp[i - j] * dp[j - 1]);
+            }
+	    }
+	    return dp[n];
+    }
+};
 
-	// fill the dp table in top-down approach.
-	for (int i = 2; i <= n; i++) {
-		for (int j = 1; j <= i; j++) {
-
-			// n-i in right * i-1 in left
-			dp[i] = dp[i] + (dp[i - j] * dp[j - 1]);
+// O(n) Time and O(1) space Catalan Number solution
+// Catalan Number(n) = 1/n+1 2nCn = (2n)! / (n+1)!n! =  (2n)! / (n+1)n!n!
+class Solution {
+public:
+	int numTrees(int n) {
+		long long int ans = 1;
+		for(int i = 1; i <= n; i++){
+			ans = ans * (n+i) / i;
 		}
+		return ans / (n+1);
 	}
+};
 
-	return dp[n];
-}
-
-// Driver Code
-int main()
-{
-	int n = 3;
-	cout << "Number of structurally Unique BST with " <<
-	n << " keys are : " << numberOfBST(n) << "\n";
-
-	return 0;
-}

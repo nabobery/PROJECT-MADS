@@ -1,22 +1,32 @@
 // 198. House Robber
+
+// O(n) Time and Space Solution
 class Solution {
 public:
     int rob(vector<int>& nums) {
-        int result;
         int n = nums.size();
-        if(n == 0)
-            return 0;
-        int val1 = nums[0];
-        if(n == 1)
-            return val1;
-        int val2 = max(nums[0], nums[1]);
-        if(n == 2)
-            return val2;
-        for(int i = 2; i < n; i++){
-            result = max(nums[i] + val1, val2);
-            val1 = val2;
-            val2 = result;
+        if(n == 1) return nums[0];
+        vector<int> dp(n+1,0);
+        dp[0] = 0, dp[1] = nums[0];
+        for(int i = 2; i <= n;i++){
+            dp[i] =  max(dp[i-2] + nums[i-1], dp[i-1]);
         }
-        return result;
+        return dp[n];
+    }
+};
+
+// O(n) Time and O(1) Space Solution
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        int n = nums.size();
+        if(n == 1) return nums[0];
+        int t0 = 0, t1 = nums[0],temp;
+        for(int i = 2; i <= n;i++){
+            temp  = t1;
+            t1 =  max(t0 + nums[i-1], t1);
+            t0 = temp;
+        }
+        return t1;
     }
 };

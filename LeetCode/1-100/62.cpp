@@ -1,4 +1,5 @@
 /* 62. Unique Paths
+
 Initial solution : (m + n - 2)C(m - 1)
 class Solution {
 public:
@@ -12,6 +13,27 @@ public:
     }
 };
 */
+
+// O(mn) Time and O(mn) space solution using DP
+class Solution {
+public:
+    int uniquePaths(int m, int n) {
+        vector<vector<int>> dp(m, vector<int>(n,0));
+        // base case
+        dp[0][0] = 1;
+        for(int i = 0; i < m;i++){
+            for(int j = 0; j < n;j++){
+                // if we are at the first row or first column, then we can only reach the current cell from the left or top cell
+                if(i > 0) dp[i][j] += dp[i-1][j];
+                if(j > 0) dp[i][j] += dp[i][j-1];
+            }
+        }
+        // return the number of paths to reach the bottom right cell
+        return dp[m-1][n-1];
+    }
+};
+
+// O(mn) Time and O(n) space solution using DP
 class Solution {
 public:
     int uniquePaths(int m, int n) {
@@ -25,35 +47,3 @@ public:
         return dp[n - 1];
     }
 };
-/* Intuitive solution :
-#include <iostream>
-using namespace std;
-// Returns count of possible paths to reach cell at
-// row number m and column number n from the topmost
-// leftmost cell (cell at 1, 1)
-int numberOfPaths(int m, int n)
-{
-	// Create a 2D table to store results of subproblems
-	int count[m][n];
-
-	// Count of paths to reach any cell in first column is 1
-	for (int i = 0; i < m; i++)
-		count[i][0] = 1;
-
-	// Count of paths to reach any cell in first row is 1
-	for (int j = 0; j < n; j++)
-		count[0][j] = 1;
-
-	// Calculate count of paths for other cells in
-	// bottom-up manner using the recursive solution
-	for (int i = 1; i < m; i++) {
-		for (int j = 1; j < n; j++)
-
-			// By uncommenting the last part the code calculates the total
-			// possible paths if the diagonal Movements are allowed
-			count[i][j] = count[i - 1][j] + count[i][j - 1]; //+ count[i-1][j-1];
-	}
-	return count[m - 1][n - 1];
-}
-
-*/

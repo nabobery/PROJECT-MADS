@@ -36,3 +36,25 @@ public:
     }
 };
 
+
+// another naive solution of mine 0 ms
+class Solution {
+public:
+    vector<vector<int>> generate(int numRows) {
+        if(numRows == 1) return {{1}};
+        else{
+            vector<vector<int>> result(numRows);
+            result[0] = {1};
+            for(int i = 2; i <= numRows;i++){
+                vector<int> temp(i);
+                for(int j = -1; j < i-1;j++){
+                    int t = (j == -1 ? 0 : result[i-2][j]);
+                    t += (j == i-2 ? 0 : result[i-2][j+1]);
+                    temp[j+1] = t;
+                }
+                result[i-1] = temp;
+            }
+            return result;
+        }
+    }
+};

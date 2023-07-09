@@ -1,5 +1,6 @@
 //221. Maximal Square
-// Not space optimised Time complexity and space compplexity O(rows)(cols)
+
+// O(rows*cols) time and O(rows*cols) space solution
 class Solution {
 public:
     int maximalSquare(vector<vector<char>>& matrix) {
@@ -19,7 +20,7 @@ public:
     }
 };
 
-// memory optimised O(cols)
+// O(rows*cols) time and O(cols) space solution
 class Solution {
 public:
     int maximalSquare(vector<vector<char>>& matrix) {
@@ -32,6 +33,10 @@ public:
             dp[i] = 0;
         for(int i = 1; i <= rows;i++){
             for(int j = 1; j <= cols;j++){
+                // prev is the value of dp[j-1] in the previous iteration
+                // dp[j-1] is the value of dp[j] in the previous iteration
+                // dp[j] is the value of dp[j] in the current iteration
+                // dp[j] = min(min(dp[j-1],prev),dp[j]) + 1;
                 int temp = dp[j];
                 if(matrix[i-1][j-1] == '1'){
                     dp[j] = min(min(dp[j-1],prev),dp[j]) + 1;

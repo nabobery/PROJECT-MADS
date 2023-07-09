@@ -1,5 +1,6 @@
 // 5. Longest Palindromic Substring
-// my naive TLE Solution O(n^3) time and space solution
+
+// naive TLE Solution O(n^3) time and space solution
 class Solution {
 public:
     bool isPalindrome(string s){
@@ -27,7 +28,7 @@ public:
     }
 };
 
-// using DP table O(n^2) time and space solution
+// DP table O(n^2) time and space solution
 class Solution {
 public:
     string longestPalindrome(string s) {
@@ -35,15 +36,20 @@ public:
         if(n == 1) return s;
         string result = "";
         vector<vector<bool>> dp(n , vector<bool> (n, false));
+        // base case where i == j 
         for(int i = 0; i < n;i++){
             dp[i][i] = true;
         }
+        // base case where i == j+1
         for(int i = 0; i < n-1;i++) dp[i][i+1] = (s[i] == s[i+1]);
+        // we start from the end and fill the table from bottom to top
         for(int i = n-3; i>=0; --i){
             for(int j = i+2;j<n; ++j){
+                // if the chars are equal and the substring between them is a palindrome
                 dp[i][j] = (dp[i+1][j-1] && s[i] == s[j]);
             }
         }
+        // find the longest palindrome
         int max = 0;
         for(int i = 0;i < n;i++){
             for(int j = i;j < n;j++){
@@ -61,12 +67,11 @@ public:
 class Solution {
 public:
     int expandAroundCenter(string s, int left, int right) {
-        int L = left, R = right;
-        while (L >= 0 && R < s.size() && s[L] == s[R]) {
-            L--;
-            R++;
+        while (left>= 0 && right < s.size() && s[left] == s[right]) {
+            left--;
+            right++;
         }
-        return R - L - 1;
+        return right - left- 1;
     }
     string longestPalindrome(string s) {
         if (s.length() == 1) return s;
@@ -85,31 +90,31 @@ public:
     }
 };
 
-// greedy and fast where we skip duplicate chars
+// greedy and fast where we skip duplicate chars O(n^2) time and O(1) space
 class Solution {
 public:
     string longestPalindrome(string s) {
         int n = s.size();
-        if(n < 2) return s;
-        int maxIdx = 0;
-        int maxLen = 1;
-        int i = 0;
-        while (i < n) {
-            int start = i;
-            int end = i;
-            // expand the window from the end if it's an even palindrome and skip duplicates
-            while (end + 1 < n && s[end] == s[end + 1]) end++;
-            i = end + 1;
-            // expand the window from both sides until it's not longer a palindrome
-            while (start - 1 >= 0 && end + 1 < s.size() && s[start - 1] == s[end + 1]) {
-                start--, end++;
+        if(n == 1) return s;
+        string result = "";
+        int max = 0;
+        for(int i = 0; i < n;){
+            int j = i;
+            int k = i;
+            // skip duplicate chars
+            while(k < n-1 && s[k] == s[k+1]) k++;
+            i = k+1;
+            // expand around center until it's not a palindrome
+            while(j > 0 && k < n-1 && s[j-1] == s[k+1]){
+                j--;
+                k++;
             }
-            int currLen = end - start + 1;
-            if (currLen > maxLen) {
-                maxIdx = start;
-                maxLen = currLen;
+            // if length greater than previous length
+            if(k-j+1 > max){
+                max = k-j+1;
+                result = s.substr(j,k-j+1);
             }
         }
-        return s.substr(maxIdx, maxLen);
+        return result;
     }
 };

@@ -85,5 +85,27 @@ public:
 };
 
 
-
+// bottom up DP Solution
+class Solution {
+public:
+    int dp[20001], mp[20001];
+    int helper(int& ma, int num){
+        if(num > ma) return 0;
+        if(dp[num] != -1) return dp[num];
+        int p1 = mp[num]*num + helper(ma, num+2);
+        int p2 = helper(ma,num+1);
+        return dp[num] = max(p1,p2);
+    }
+    int deleteAndEarn(vector<int>& nums) {
+        int mi = 1e5, ma = 0;
+        memset(mp, 0, sizeof(mp));
+        for(auto &num : nums){
+            mp[num]++;
+            mi = min(mi,num);
+            ma = max(ma,num);
+        }
+        memset(dp, -1, sizeof(dp));
+        return helper(ma,mi);
+    }
+};
 
