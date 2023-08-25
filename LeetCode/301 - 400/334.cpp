@@ -1,5 +1,6 @@
 // 334. Increasing Triplet Subsequence
-// greedy approach to ensure there're 3 numbers such that increasing triplet exists
+
+// greedy approach to ensure there're 3 numbers such that increasing triplet exists (It can aslo be thought of as find a LIS of length 3)
 class Solution {
 public:
     bool increasingTriplet(vector<int>& nums) {
@@ -8,9 +9,9 @@ public:
         for(int num : nums){
             // the 1st num (if number less than 1st ,we replace and start over again)
             if(num <= i) i = num;
-            // 2nd num greater than 1st
+            // 2nd num greater than current 1st and if number less than 2nd ,we replace and start over again
             else if(num <= j) j = num;
-            // found 3rd num then return true;
+            // if we find a number greater than 2nd ,we return true
             else return true;
         }
         return false;

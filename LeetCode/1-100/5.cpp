@@ -63,6 +63,28 @@ public:
     }
 };
 
+// another short dp solution
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        int n = s.size(), res = 1, l_in = 0;
+        vector<vector<bool>> dp(n, vector<bool>(n, false));
+        for(int i = 0; i < n;i++) dp[i][i] = true;
+        for(int l = n-2; l >= 0;l--){
+            for(int r = l+1; r < n;r++){
+                if(s[l] == s[r] && (r-l == 1 || dp[l+1][r-1])){
+                    dp[l][r] = true;
+                    if(r-l+1 > res){
+                        l_in = l;
+                        res = r-l+1;
+                    }
+                }
+            }
+        }
+        return s.substr(l_in, res);
+    }
+};
+
 // expand around center O(n^2) time and O(1) space
 class Solution {
 public:
