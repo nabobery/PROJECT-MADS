@@ -1,4 +1,51 @@
 // 338. Counting Bits
+
+// O(n*logn) time solution
+class Solution {
+public:
+    vector<int> countBits(int n) {
+        vector<int> res(n+1);
+        for(int i = 0; i <= n;i++){
+            int temp = i, cnt = 0;
+            while(temp){
+                if(temp%2) cnt++;
+                temp /= 2;
+            }
+            res[i] = cnt;
+        }
+        return res;
+    }
+};
+
+// O(n*sizeof(integer)) time solution
+// for each number, we count the number of 1 bits
+class Solution {
+public:
+    vector<int> countBits(int n) {
+        vector<int> res(n+1);
+        vector<int>count(17, 0);
+        res[0] = 0;
+        for(int i = 1; i <= n;i++){
+            int cnt = 0, carry = 1;
+            for(int j = 0; j < count.size();j++){
+                if(count[j]+carry == 2){
+                    count[j] = 0;
+                    carry = 1;
+                }
+                else{
+                    count[j] = 1;
+                    break;
+                }
+            }
+            for(auto c : count){
+                if(c) cnt++;
+            }
+            res[i] = cnt;
+        }
+        return res;
+    }
+};
+
 // my naive solution using default function
 class Solution {
 public:
