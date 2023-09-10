@@ -18,18 +18,16 @@ public:
 class Solution {
 public:
     int uniquePaths(int m, int n) {
-        vector<vector<int>> dp(m, vector<int>(n,0));
-        // base case
-        dp[0][0] = 1;
-        for(int i = 0; i < m;i++){
-            for(int j = 0; j < n;j++){
-                // if we are at the first row or first column, then we can only reach the current cell from the left or top cell
-                if(i > 0) dp[i][j] += dp[i-1][j];
-                if(j > 0) dp[i][j] += dp[i][j-1];
-            }
-        }
-        // return the number of paths to reach the bottom right cell
-        return dp[m-1][n-1];
+        if(n == 1 || m == 1) return 1;
+       vector<vector<int>> dp(m, vector<int>(n, 0));
+       for(int i = 0; i < m;i++) dp[i][0] = 1;
+       for(int i = 0; i < n;i++) dp[0][i] = 1;
+       for(int i = 1; i < m;i++){
+           for(int j = 1; j < n;j++){
+               dp[i][j] = dp[i-1][j] + dp[i][j-1];
+           }
+       }
+       return dp[m-1][n-1];
     }
 };
 
@@ -45,5 +43,23 @@ public:
             }
         }
         return dp[n - 1];
+    }
+};
+
+// Solution using Combinatorics
+// We have m - 1 down and n - 1 right moves to make
+// So total moves = m + n - 2
+// We have to choose m - 1 moves to go down
+// So total ways = (m + n - 2)C(m - 1)
+class Solution {
+public:
+    int uniquePaths(int m, int n) {
+        int N = n + m - 2;
+        int r = m - 1;
+        double res = 1;
+        for(int i = 1; i <= r; i++){
+            res = res * (N - r + i) / i;
+        }
+        return (int)res;
     }
 };
