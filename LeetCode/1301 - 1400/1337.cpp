@@ -27,6 +27,25 @@ public:
     }
 };
 
+// Another solution using vector of pairs
+class Solution {
+public:
+    vector<int> kWeakestRows(vector<vector<int>>& mat, int k) {
+        vector<pair<int,int>> p(mat.size());
+        int cnt;
+        for(int i = 0;i < mat.size();i++){
+            cnt = 0;
+            for(auto num : mat[i])
+                if(num == 1) cnt++;
+            p[i] = {cnt, i};
+        }
+        sort(p.begin(), p.end());
+        vector<int> res(k);
+        for(int i = 0; i < k;i++) res[i]= p[i].second;
+        return res;
+    }
+};
+
 // using simple sort and appending index of row to the matrix
 class Solution {
 public:

@@ -65,3 +65,50 @@ public:
     }
 };
 
+// Using slow and fast pointers
+// O(n) time and O(1) space solution
+// The idea is to use slow and fast pointers. The slow pointer moves one step at a time while the fast pointer moves based on the number at the num[index].
+// Eventually, they will meet at a loop. The entry point of the loop is the duplicate number.
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        int slow = nums[0];
+        int fast = nums[0];
+        // find the intersection point of the two runners
+        do{
+            slow = nums[slow];
+            fast = nums[nums[fast]];
+        }while(slow != fast);
+        // find the "entrance" to the cycle
+        slow = nums[0];
+        while(slow != fast){
+            slow = nums[slow];
+            fast = nums[fast];
+        }
+        return slow;
+    }
+};
+
+// Bit Manipulation O(nlogn) time and O(1) space solution
+// The idea is to count the number of 1s in the binary representation of the numbers from 1 to n.
+// If the count of 1s is greater than the count of 0s, then the duplicate number's binary representation will have 1s at the same positions.
+// We can use this idea to find the duplicate number.
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        int n = nums.size()-1;
+        int duplicate = 0;
+        // count the number of 1s in the binary representation of the numbers from 1 to n
+        for(int i = 0; i < 32; i++){
+            int bit = (1 << i);
+            int count1 = 0, count2 = 0;
+            for(int j = 0; j <= n; j++){
+                if(j & bit) count1++;
+                if(nums[j] & bit) count2++;
+            }
+            if(count2 > count1) duplicate |= bit;
+        }
+        return duplicate;
+    }
+};
+
