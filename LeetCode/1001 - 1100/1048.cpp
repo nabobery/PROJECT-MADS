@@ -100,5 +100,3 @@ public:
         return result;
     }
 };
-
-
