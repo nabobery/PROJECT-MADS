@@ -1,5 +1,12 @@
 // 1306. Jump Game III
-// O(n) space and time
+
+// Simple BFS
+// Time complexity: O(n)
+// Space complexity: O(n)
+// The idea is to start from the given index and keep adding the indices that can be reached from the current index to the queue.
+// We also keep a visited array to avoid visiting the same index again.
+// If we reach an index with value 0, we return true.
+// If we have visited all the indices and still haven't reached an index with value 0, we return false.
 class Solution {
 public:
     bool canReach(vector<int>& arr, int start) {

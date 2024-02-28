@@ -1,47 +1,37 @@
 // 1129. Shortest Path with Alternating Colors
 
-class Solution
-{
+// Solution 1 using BFS and queue
+// Time complexity: O(n + e) where n is the number of nodes and e is the number of edges
+// Space complexity: O(n + e)
+class Solution {
 public:
-    vector<int> shortestAlternatingPaths(int n, vector<vector<int>> &redEdges, vector<vector<int>> &blueEdges)
-    {
-        vector<int> result(n, -1);
-        vector<vector<bool>> vis(n, vector<bool>(2));
-        vector<vector<pair<int, bool>>> adj(n);
-        for (auto &edge : redEdges)
-        {
-            adj[edge[0]].push_back({edge[1], true});
-        }
-        for (auto &edge : blueEdges)
-        {
-            adj[edge[0]].push_back({edge[1], false});
-        }
+    vector<int> shortestAlternatingPaths(int n, vector<vector<int>>& redEdges, vector<vector<int>>& blueEdges) {
+        vector<int> res(n, -1);
+        res[0] = 0;
+        vector<vector<bool>> vis(n, vector<bool>(2, false));
+        vector<vector<pair<int,bool>>> adj(n);
+        for(auto& edge : redEdges) adj[edge[0]].push_back({edge[1], false});
+        for(auto& edge : blueEdges) adj[edge[0]].push_back({edge[1], true});
         queue<pair<int, bool>> q;
-        q.push({0, true});
         q.push({0, false});
-        int distance = 0;
-        pair<int, bool> curr;
+        q.push({0, true});
         vis[0][0] = vis[0][1] = true;
-        while (!q.empty())
-        {
+        int dis = 0;
+        while(!q.empty()){
             int s = q.size();
-            for (int i = 0; i < s; i++)
-            {
-                curr = q.front();
-                if (result[curr.first] == -1)
-                    result[curr.first] = distance;
+            for(int i = 0; i < s;i++){
+                auto curr = q.front();
                 q.pop();
-                for (auto &node : adj[curr.first])
-                {
-                    if (curr.second != node.second && !vis[node.first][node.second])
-                    {
-                        q.push(node);
-                        vis[node.first][node.second] = true;
+                if(res[curr.first] == -1) res[curr.first] = dis; 
+                for(auto& neighbour : adj[curr.first]){
+                    if(curr.second != neighbour.second && !vis[neighbour.first][neighbour.second]){
+                        q.push(neighbour);
+                        vis[neighbour.first][neighbour.second] = true;
                     }
                 }
             }
-            distance++;
+            dis++;
         }
-        return result;
+        return res;
     }
 };
