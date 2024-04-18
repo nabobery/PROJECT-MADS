@@ -1,18 +1,4 @@
-/* 404. Sum of Left Leaves
-Given the root of a binary tree, return the sum of all left leaves.
-Example 1:
-Input: root = [3,9,20,null,null,15,7]
-Output: 24
-Explanation: There are two left leaves in the binary tree, with values 9 and 15 respectively.
-Example 2:
-Input: root = [1]
-Output: 0
-
-Constraints:
-The number of nodes in the tree is in the range [1, 1000].
--1000 <= Node.val <= 1000
-
-*/
+// 404. Sum of Left Leaves
 
 /**
  * Definition for a binary tree node.
@@ -25,27 +11,51 @@ The number of nodes in the tree is in the range [1, 1000].
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+
+// Solution 1 using isLeaf helper function to check if the node is leaf or not
+// Time complexity: O(n)
+// Space complexity: O(n)
 class Solution {
 public:
     int sumOfLeftLeaves(TreeNode* root) {
         int total = 0;
-        if(root != NULL){
-            if(isLeaf(root->left)){
+        if(!root){
+            if(isLeaf(root->left))
                 total += root->left->val;
-            }
-            else {
-                total += sumOfLeftLeaves(root->left);
-            }
+            else  total += sumOfLeftLeaves(root->left);
             total += sumOfLeftLeaves(root->right);
         }
         return total;
     }
     bool isLeaf(TreeNode* node){
-        if(node == NULL)
+        if(!node)
             return false;
-        if(node->left == NULL && node->right == NULL){
+        if(!node->left && !node->right){
             return true;
         }
         return false;
+    }
+};
+
+// Solution 2 using a helper function to check if the leaf is left leaf of parent or not
+// Time complexity: O(n)
+// Space complexity: O(n)
+class Solution {
+public:
+    int res;
+    void helper(TreeNode* root, TreeNode* p){
+        if(!root->left && !root->right){
+            if(p->left == root) res += root->val;
+            return; 
+        }
+        if(root->left) helper(root->left, root);
+        if(root->right) helper(root->right, root);
+    }
+    int sumOfLeftLeaves(TreeNode* root) {
+        res = 0;
+        if(!root->left && !root->right) return res;
+        if(root->left) helper(root->left, root);
+        if(root->right) helper(root->right, root);
+        return res;
     }
 };

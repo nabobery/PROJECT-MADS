@@ -1,5 +1,8 @@
 // 1249. Minimum Remove to Make Valid Parentheses
-// my naive solution using 2 stacks
+
+// Naive solution using 2 stacks
+// Time complexity: O(n)
+// Space complexity: O(n)
 class Solution {
 public:
     string minRemoveToMakeValid(string s) {
@@ -37,9 +40,11 @@ public:
     }
 };
 
-// O(n) time and O(n) space solution
+// Optimized solution using 1 stack by modifying the string in place
 // if we encounter '(', we push to stack and if we encounter ')' and there's no balance then we make it '#', else we pop
 // if there're some leftover '(', we make it '#', now we erase all '#' from string
+// Time complexity: O(n)
+// Space complexity: O(n)
 class Solution {
 public:
     string minRemoveToMakeValid(string s) {
@@ -60,7 +65,37 @@ public:
     }
 };
 
-// O(N) time and O(1) space solution
+// Solution using Stack and Set
+// Time complexity: O(n)
+// Space complexity: O(n)
+class Solution {
+public:
+    string minRemoveToMakeValid(string s) {
+        int n = s.size();
+        stack<int> stk;
+        unordered_set<int> st;
+        for(int i = 0; i < n;i++){
+            if(s[i] == '(') stk.push(i);
+            else if(s[i] == ')'){
+                if(stk.empty()) st.insert(i);
+                else stk.pop();
+            }
+        }
+        while(!stk.empty()){
+            st.insert(stk.top());
+            stk.pop();
+        }
+        if(st.empty()) return s;
+        string res = "";
+        for(int i = 0; i < s.size();i++)
+            if(!st.count(i)) res += s[i];
+        return res;
+    }
+};
+
+// Solution without using stack
+// Time complexity: O(n)
+// Space complexity: O(1)
 class Solution {
 public:
     string minRemoveToMakeValid(string s) {
