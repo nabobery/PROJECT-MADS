@@ -1,25 +1,46 @@
 // 78. Subsets
-// my naive recursive solution using backtracking
+
+// Solution 1: Naive Recursion + Backtracking
+// Time Complexity: O(2^n)
+// Space Complexity: O(2^n)
 class Solution {
 public:
-    vector<vector<int>> result;
-    void helper(int k, vector<int>& nums, vector<int> subset){
-        if(k == nums.size()){
-            result.push_back(subset);
+    int n;
+    vector<vector<int>> res;
+    void helper(int i, vector<int>& curr, vector<int>& nums){
+        if(i >= n){
+            res.push_back(curr);
             return;
         }
-        else{
-            helper(k+1,nums,subset);
-            subset.push_back(nums[k]);
-            helper(k+1,nums,subset);
-            subset.pop_back();
-        }
+        helper(i+1, curr, nums);
+        curr.push_back(nums[i]);
+        helper(i+1, curr, nums);
+        curr.pop_back();
     }
-
     vector<vector<int>> subsets(vector<int>& nums) {
-        vector<int> subset;
-        helper(0, nums, subset);
-        return result;
+        n = nums.size();
+        vector<int> temp;
+        helper(0, temp, nums);
+        return res;
+    }
+};
+
+// Solution 2: Bit Manipulation (Efficient Memory Usage)
+// Time Complexity: O(2^n)
+// Space Complexity: O(2^n)
+class Solution {
+public:
+    vector<vector<int>> subsets(vector<int>& nums) {
+        int n = nums.size();
+        vector<vector<int>> res;
+        for(int i = 0; i < (1 << n); i++){
+            vector<int> temp;
+            for(int j = 0; j < n; j++)
+                if(i & (1 << j))
+                    temp.push_back(nums[j]);
+            res.push_back(temp);
+        }
+        return res;
     }
 };
 

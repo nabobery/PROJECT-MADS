@@ -1,5 +1,8 @@
 // 165. Compare Version Numbers
-// my naive O(max(m,n)) time solution
+
+// Solution 1 using Two Pointers
+// Time complexity: O(min(n1, n2))
+// Space complexity: O(1)
 class Solution {
 public:
     int compareVersion(string version1, string version2) {
@@ -28,3 +31,23 @@ public:
     }
 };
 
+// Solution 2 using stringstream
+// Time complexity: O(n1 + n2)
+// Space complexity: O(n1 + n2)
+
+class Solution {
+public:
+    int compareVersion(string version1, string version2) {
+        stringstream ss1(version1), ss2(version2);
+        string rev1, rev2;
+        while(!ss1.eof() || !ss2.eof()){
+            int num1 = 0, num2 = 0;
+            if(getline(ss1, rev1, '.')) num1 = stoi(rev1);
+            if(getline(ss2, rev2, '.')) num2 = stoi(rev2);
+            if(num1 > num2) return 1;
+            else if(num1 < num2) return -1;
+            rev1 = rev2 = "";
+        }
+        return 0;
+    }
+};

@@ -1,5 +1,8 @@
 // 881. Boats to Save People
-// O(nlogn) time greedy solution using sorting and two pointers
+
+// Solution 1 using Sorting and Two Pointers
+// Time Complexity: O(nlogn)
+// Space Complexity: O(1)
 class Solution {
 public:
     int numRescueBoats(vector<int>& people, int limit) {
