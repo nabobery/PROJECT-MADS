@@ -1,21 +1,8 @@
-/*260. Single Number III
-Given an integer array nums, in which exactly two elements appear only once and all the other elements appear exactly twice. Find the two elements that appear only once. 
-You can return the answer in any order.
-You must write an algorithm that runs in linear runtime complexity and uses only constant extra space.
-Example 1:
+// 260. Single Number III
 
-Input: nums = [1,2,1,3,2,5]
-Output: [3,5]
-Explanation:  [5, 3] is also a valid answer
-Example 2:
-Input: nums = [-1,0]
-Output: [-1,0]
-Example 3:
-
-Input: nums = [0,1]
-Output: [1,0]
-
-Solution1: 
+// Solution 1: Using Unordered Map
+// Time complexity: O(n)
+// Space complexity: O(n)
 class Solution {
 public:
     vector<int> singleNumber(vector<int>& nums) {
@@ -32,7 +19,9 @@ public:
     }
 };
 
-Solution2: 
+// Solution 2: Using Unordered Set
+// Time complexity: O(n)
+// Space complexity: O(n)
 class Solution {
 public:
     vector<int> singleNumber(vector<int>& nums) {
@@ -50,4 +39,31 @@ public:
         return result;
     }
 };
-*/
+
+
+// Solution 3: Using Bit Manipulation
+// Time complexity: O(n)
+// Space complexity: O(1)
+class Solution {
+public:
+    vector<int> singleNumber(vector<int>& nums) {
+        int n = nums.size();
+        int xorResult = 0;
+        // XOR of all elements
+        for (int i = 0; i < n; i++)
+            xorResult ^= nums[i];
+        int mask = 1;
+        // Find the rightmost set bit which is different in both numbers
+        while ((mask & xorResult) == 0)
+            mask <<= 1;
+        // Divide the numbers into two groups based on the rightmost set bit
+        int num1 = 0, num2 = 0;
+        for (int i = 0; i < n; i++){
+            if (nums[i] & mask)
+                num1 ^= nums[i];
+            else
+                num2 ^= nums[i];
+        }
+        return {num1, num2};
+    }
+};
