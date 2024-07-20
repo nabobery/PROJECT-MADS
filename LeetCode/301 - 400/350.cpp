@@ -1,6 +1,8 @@
 // 350. Intersection of Two Arrays II
 
-// Solution 1
+// Solution 1 using array
+// Time complexity: O(n)
+// Space complexity: O(n)
 class Solution {
 public:
     int count1[1001], count2[1001];
@@ -18,11 +20,33 @@ public:
     }
 };
 
-// Solution 2
+// Solution 2 using map
+// Time complexity: O(nlogn
+// Space complexity: O(n)
 class Solution {
 public:
     vector<int> intersect(vector<int>& nums1, vector<int>& nums2) {
         map<int, int> mp1, mp2;
+        int n1 = nums1.size(), n2 = nums2.size();
+        for(int i = 0; i < n1;i++) mp1[nums1[i]]++;
+        for(int i = 0; i < n2;i++) mp2[nums2[i]]++;
+        vector<int> result;
+        for(auto it : mp1){
+            if(mp2.count(it.first)){
+                for(int i = 0; i < min(it.second, mp2[it.first]);i++) result.push_back(it.first);
+            }
+        }
+        return result;
+    }
+};
+
+// Solution 2 with unordered_map
+// Time complexity: O(n)
+// Space complexity: O(n)
+class Solution {
+public:
+    vector<int> intersect(vector<int>& nums1, vector<int>& nums2) {
+        unordered_map<int, int> mp1, mp2;
         int n1 = nums1.size(), n2 = nums2.size();
         for(int i = 0; i < n1;i++) mp1[nums1[i]]++;
         for(int i = 0; i < n2;i++) mp2[nums2[i]]++;

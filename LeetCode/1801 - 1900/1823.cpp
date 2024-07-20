@@ -1,7 +1,6 @@
 // 1823. Find the Winner of the Circular Game
 // recursive O(n) time and O(n) space solution
 /*
-This problem can also be solved using Recursion.
 If you observe, you can see that we are doing the same activity again and again i.e. deleting every kth element we encounter.
 Therefore, we can think towards the recursive approach also.
 Intuition : If I have the winner for 'n-1' and 'k'. I can find the winner for 'n' and 'k' by moving on to the next kth person (i.e. f(n) = f(n-1)+k).
