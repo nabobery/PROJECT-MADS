@@ -1,6 +1,8 @@
 // 264. Ugly Number II
 
-// O(nlogn) time, O(n) space solution
+// Solution 1 using set
+// Time complexity: O(nlogn)
+// Space complexity: O(n)
 class Solution {
 public:
     int nthUglyNumber(int n) {
@@ -18,7 +20,9 @@ public:
     }
 };
 
-// O(n) time, O(n) space dp solution
+// Solution 2 using dynamic programming
+// Time complexity: O(n)
+// Space complexity: O(n)
 class Solution {
 public:
     int nthUglyNumber(int n) {
