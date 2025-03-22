@@ -1,2 +1,5 @@
 ### VisualStudioCode ###
 .vscode/
+
+## Jet Brains CLion ##
+.idea/
