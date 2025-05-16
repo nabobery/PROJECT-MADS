@@ -16,7 +16,9 @@ public:
         // check for all possibilities from 1 to 6
         for(int i = 1; i < 7;i++){
             // if it's possible to get a equal row
+            // cnt1[i] union cnt2[i] is equal to n
             if(count1[i] + count2[i] - countSame[i] == n)
+                // then we can get the minimum rotations by just swapping the dominoes to face which has the maximum count
                 return n - max(count1[i],count2[i]);
         }
         // return -1 if not possible
