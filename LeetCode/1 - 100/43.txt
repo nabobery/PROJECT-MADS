@@ -1,0 +1,70 @@
+num1 = 123 num2 = 456
+sum = d1*d2 + num[i_n1 + i_n2] + carry;
+i_n1 = 0, i _n2 = 0, num = 000000
+
+i = 2 d1 = 3 (i _n2 = 0, i_n1 = 0)
+	j = 2 d2 = 6 : 
+		sum = 18 + 0 + 0
+		carry = 1
+		num = 800000
+		i _n2 = 1
+	
+	j = 1 d2 = 5 :
+		sum = 15 + 0 + 1
+		carry = 1
+		num = 860000
+		i _n2 = 2
+
+	j = 0 d2 = 4 :
+		sum = 12 + 0 + 1
+		carry = 1
+		num = 863000
+		i _n2 = 3
+	carry > 0 : num = 863100; 
+	i_n1 = 1 
+
+i = 1 d1 = 2 (i _n2 = 0, i_n1 = 1)
+	j = 2 d2 = 6 : 
+		sum = 12 + 6 + 0
+		carry = 1
+		num = 883100
+		i _n2 = 1
+	
+	j = 1 d2 = 5 :
+		sum = 10 + 3 + 1
+		carry = 1
+		num = 884000
+		i _n2 = 2
+
+	j = 0 d2 = 4 :
+		sum = 8 + 1 + 1
+		carry = 1
+		num = 884000
+		i _n2 = 3
+	carry > 0 : num = 884010 
+	i_n1 = 2
+
+i = 0 d1 = 1 (i _n2 = 0, i_n1 = 2)
+	j = 2 d2 = 6 : 
+		sum = 6 + 4 + 0
+		carry = 1
+		num = 880010
+		i _n2 = 1
+	
+	j = 1 d2 = 5 :
+		sum = 5 + 0 + 1
+		carry = 0
+		num = 880610
+		i _n2 = 2
+
+	j = 0 d2 = 4 :
+		sum = 4 + 1 + 0
+		carry = 1
+		num = 880650
+		i _n2 = 3
+
+remove the ending zeroes and then reverse the vector
+123 * 456 = 56088 
+
+
+	
