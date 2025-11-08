@@ -1,8 +1,8 @@
 // 1611. Minimum One Bit Operations to Make Integers Zero
 
 // Observations
-// 1. The minimum number of operations to make an integer of the form 2^k to 0 is 2^k - 1
-// 2. The minimum number of operations to make an integer of the form n = 2^k + x to 0 is 2^(k+1) - 1 - f(x)
+// 1. The minimum number of operations to make an integer of the form 2^k to 0 is 2^(k+1) - 1 => f(2^k) = 2^(k+1) - 1
+// 2. The minimum number of operations to make an integer of the form n = 2^k + x  to 0 is 2^(k+1) - 1 - f(x) => f(2^k + x) = 2^(k+1) - 1 - f(x)
 // 3. f(x) = minimum number of operations to make x to 0
 
 // Solution 1 - Using Bit Manipulation and Math
@@ -21,7 +21,7 @@ public:
         return res;
     }
     int minimumOneBitOperations(int n) {
-        if(n < 2) return 0;
+        if(n < 2) return n;
         string s = deciToBin(n);
         int res = 0, cnt = 0;
         for(int i = 0; i < s.size();i++){
@@ -36,6 +36,7 @@ public:
 };
 
 // Solution 2 - Using Bit Manipulation and Recursion
+// Recursive Approach of f(n) = 2^(k+1) - 1 - f(n ^ 2^k) where 2^k is the highest power of 2 less than or equal to n
 // Time Complexity = O(log^2n),
 // Space Complexity = O(logn)
 class Solution {
