@@ -10,7 +10,10 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
- // my naive solution
+
+// Solution 1: My naive solution with string concatenation and binary to decimal conversion
+// Time complexity: O(n * h) where n is number of nodes and h is height of tree (due to string concatenation and conversion)
+// Space complexity: O(h) due to recursion stack and path string
 class Solution {
 public:
     int sum;
@@ -47,7 +50,9 @@ public:
     }
 };
 
-// recursive dfs with O(n) time and O(h) space
+// Solution 2: Optimized solution using bit manipulation to avoid string concatenation and conversion
+// Time complexity: O(n) where n is number of nodes (each node is visited once)
+// Space complexity: O(h) due to recursion stack
 class Solution {
 public:
     int sum = 0;
@@ -67,7 +72,9 @@ public:
     }
 };
 
-// morris dfs with O(n) time and O(1) space
+// Solution 3: Morris Traversal to achieve O(1) space complexity (excluding output)
+// Time complexity: O(n) where n is number of nodes (each node is visited at most twice)
+// Space complexity: O(1) excluding output (no recursion stack or extra data structures used
 class Solution {
 public:
     int sumRootToLeaf(TreeNode* root) {
@@ -110,3 +117,32 @@ public:
     }
 };
 
+// Solution 4: DFS with backtracking to achieve O(h) space complexity (due to recursion stack)
+// Time complexity: O(n) where n is number of nodes (each node is visited once
+// Space complexity: O(h) due to recursion stack
+class Solution {
+public:
+    int sumRootToLeaf(TreeNode* root) {
+        int currentPathValue = 0;
+        return backtrack(root, currentPathValue);
+    }
+
+private:
+    int backtrack(TreeNode* node, int& currentPathValue) {
+        if (!node) return 0;
+
+        currentPathValue = (currentPathValue << 1) | node->val;
+
+        if (!node->left && !node->right) {
+            int leafValue = currentPathValue;
+            currentPathValue >>= 1;
+            return leafValue;
+        }
+
+        int totalSum = backtrack(node->left, currentPathValue) + 
+                       backtrack(node->right, currentPathValue);
+
+        currentPathValue >>= 1;
+        return totalSum;
+    }
+};
