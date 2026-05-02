@@ -29,3 +29,34 @@ class Solution {
             return res;
         }
 };
+
+// Solution 2: A more efficient Solution 1
+class Solution {
+public:
+    int minOperations(vector<vector<int>>& grid, int x) {
+        int m = grid.size(), n = grid[0].size();
+        vector<int> nums;
+        nums.reserve(m * n);
+
+        int first = grid[0][0];
+
+        for (const auto& row : grid) {
+            for (int val : row) {
+                if ((val - first) % x != 0)
+                    return -1;
+                nums.push_back(val);
+            }
+        }
+
+        size_t mid_idx = nums.size() / 2;
+        nth_element(nums.begin(), nums.begin() + mid_idx, nums.end());
+        int median = nums[mid_idx];
+
+        int res = 0;
+        for (int num : nums) {
+            res += abs(num - median) / x;
+        }
+
+        return res;
+    }
+};
